@@ -12,7 +12,7 @@ namespace EShop.Orders
     public static class OrderItemReserver
     {
         [Function("OrderItemReserver")]
-        public static async Task Run([ServiceBusTrigger("Orders")] string order, FunctionContext context)
+        public static async Task Run([ServiceBusTrigger("orders")] string order, FunctionContext context)
         {
             var connectionString = Environment.GetEnvironmentVariable("STORAGECONNECTION");
             var containerName = Environment.GetEnvironmentVariable("CONTAINERNAME");
@@ -20,7 +20,11 @@ namespace EShop.Orders
             var tried = 0;
             var logger = context.GetLogger<string>();
 
-            var id = JsonSerializer.Deserialize<Order>(order).id;
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var id = JsonSerializer.Deserialize<Order>(order,options).id;
 
             do
             {

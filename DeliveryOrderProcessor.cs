@@ -18,11 +18,10 @@ namespace EShop.Orders
             var logger = executionContex.GetLogger("Orders");
 
             var endpoint = Environment.GetEnvironmentVariable("ENDPOINT");
-            var primaryKey = Environment.GetEnvironmentVariable("PK");
             var dbId = Environment.GetEnvironmentVariable("DB");
             var containerId = Environment.GetEnvironmentVariable("CONTAINERID");
 
-            var client = new CosmosClient(endpoint, primaryKey);
+            var client = new CosmosClient(endpoint);
             var db = client.GetDatabase(dbId);
             var conteiner = db.GetContainer(containerId);
 
